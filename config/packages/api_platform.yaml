@@ -1,0 +1,24 @@
+api_platform:
+    title: Hello API Platform
+    version: 1.0.0
+    patch_formats:
+        json: ['application/merge-patch+json']
+#        multipart: ['multipart/form-data']
+    formats:
+        jsonld: [ 'application/ld+json' ]
+        json: [ 'application/json' ]
+        html: [ 'text/html' ]
+        multipart: [ 'multipart/form-data' ]
+    defaults:
+        stateless: true
+        cache_headers:
+            vary: ['Content-Type', 'Authorization', 'Origin']
+        extra_properties:
+            standard_put: true
+    swagger:
+        api_keys:
+            JWT:
+                name: Authorization
+                type: header
+
+

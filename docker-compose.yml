@@ -1,0 +1,58 @@
+version: '3'
+
+services:
+  server:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: server
+    volumes:
+      - .:/srv/app
+    links:
+      - php
+    ports:
+      - '8888:80'
+  php:
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+      target: php_dev
+    volumes:
+      - ./.docker/php/conf.d/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini
+      - ~/.config/composer:/home/prod/.composer
+      - .:/srv/app
+  database:
+    image: postgres:15.4-alpine
+    environment:
+      POSTGRES_DB: symfony
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: root
+    volumes:
+      - database_data:/var/lib/postgresql/data:rw
+    ports:
+      - "5432:5432"
+
+  ###> symfony/mailer ###
+  mailer:
+    image: schickling/mailcatcher
+    ports: ["1025:1025", "1080:1080"]
+###< symfony/mailer ###
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+#    restart: always
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+
+volumes:
+  database_data:
+  pgadmin-data:
