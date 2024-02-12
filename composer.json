@@ -75,8 +75,10 @@
         "symfony/polyfill-php81": "*"
     },
     "scripts": {
-       
-        
+        "auto-scripts": {
+            "cache:clear": "symfony-cmd"
+        }
+    
     },
     "conflict": {
         "symfony/symfony": "*"
