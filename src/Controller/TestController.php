@@ -24,13 +24,6 @@ class TestController extends AbstractController
     #[IsGranted('PUBLIC_ACCESS')]
     public function index(ParameterBagInterface $params): Response
     {
-
-        // Ou
-        // $frontUrl = getenv('FRONT_URL') ?: 'Valeur par défaut';
-        $izan  = "izan";
-        dd("izzzancc");
-
-        //echo xdebug_info();
         return $this->render('test/index.html.twig', [
             'controller_name' => 'TestController',
         ]);
